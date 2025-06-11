@@ -1,0 +1,9 @@
+{
+  "editor.indentSize": "tabSize",
+  "editor.tabSize": 3,
+  "editor.autoIndent": "advanced",
+  "diffEditor.wordWrap": "on",
+  "editor.accessibilitySupport": "off",
+  "editor.wordWrap": "on",
+  "docwriter.style": "Auto-detect"
+}
