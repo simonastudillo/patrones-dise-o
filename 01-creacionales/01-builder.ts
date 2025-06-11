@@ -13,6 +13,8 @@
  * https://refactoring.guru/es/design-patterns/builder
  */
 
+import { COLORS } from "../helpers/colors.ts";
+
 class Computer {
 
    public cpu: string = 'cpu - not defined';
@@ -65,4 +67,29 @@ class ComputerBuilder {
    }
 }
 
+function main() {
 
+   const basicComputer: Computer = new ComputerBuilder()
+      .setCPU('Intel Core i5')
+      .setRAM('8GB')
+      .setStorage('256GB SSD')
+      .build();
+
+   console.log('%cComputadora básica:', COLORS.yellow);
+   basicComputer.displayConfiguration();
+
+
+   const gamingComputer: Computer = new ComputerBuilder()
+      .setCPU('AMD Ryzen 7')
+      .setRAM('32GB')
+      .setStorage('1TB SSD')
+      .setStorage('2TB SSD')
+      .setGPU('NVIDIA GeForce RTX 3080')
+      .build();
+
+   console.log('%cComputadora Gamer:', COLORS.yellow);
+   gamingComputer.displayConfiguration();
+
+}
+
+main();
