@@ -75,24 +75,18 @@ class QueryBuilder {
 
    execute(): string {
       // Select id, name, email from users where age > 18 and country = 'Cri' order by name ASC limit 10;
-      let query = `SELECT ${this.fields.join(', ')} FROM ${this.table}`;
+      const selectFields = `SELECT ${this.fields.join(', ')} FROM ${this.table}`;
 
       // Condiciones
-      if (this.conditions.length > 0) {
-         query += ` WHERE ${this.conditions.join(' AND ')}`;
-      }
+      const whereClause = this.conditions.length > 0 ? this.conditions.join(' AND ') : '';
 
       // Ordenamiento
-      if (this.orderFields.length > 0) {
-         query += ` ORDER BY ${this.orderFields.join(', ')}`;
-      }
+      const orderClause = this.orderFields.length > 0 ? ` ORDER BY ${this.orderFields.join(', ')}` : '';
 
       // Límite
-      if (this.limitCount !== undefined) {
-         query += ` LIMIT ${this.limitCount}`;
-      }
+      const limitClause = this.limitCount !== undefined ? ` LIMIT ${this.limitCount}` : '';
 
-      return query;
+      return `${selectFields} ${whereClause} ${orderClause} ${limitClause};`.trim();
    }
 }
 
