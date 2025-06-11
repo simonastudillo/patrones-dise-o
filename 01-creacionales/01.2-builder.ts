@@ -50,25 +50,50 @@ class QueryBuilder {
   }
 
   select(...fields: string[]): QueryBuilder {
-    throw new Error('Method not implemented.');
+      if (fields.length === 0) {
+         this.fields.push('*'); // Selecciona todos los campos si no se especifican
+      } else {
+         this.fields.push(...fields);
+      }
+      return this;
   }
 
   where(condition: string): QueryBuilder {
-    throw new Error('Method not implemented.');
+      this.conditions.push(condition);
+      return this;
   }
 
   orderBy(field: string, direction: 'ASC' | 'DESC' = 'ASC'): QueryBuilder {
-    throw new Error('Method not implemented.');
+      this.orderFields.push(`${field} ${direction}`);
+      return this;
   }
 
   limit(count: number): QueryBuilder {
-    throw new Error('Method not implemented.');
+      this.limitCount = count;
+      return this;
   }
 
-  execute(): string {
-    // Select id, name, email from users where age > 18 and country = 'Cri' order by name ASC limit 10;
-    throw new Error('Method not implemented.');
-  }
+   execute(): string {
+      // Select id, name, email from users where age > 18 and country = 'Cri' order by name ASC limit 10;
+      let query = `SELECT ${this.fields.join(', ')} FROM ${this.table}`;
+
+      // Condiciones
+      if (this.conditions.length > 0) {
+         query += ` WHERE ${this.conditions.join(' AND ')}`;
+      }
+
+      // Ordenamiento
+      if (this.orderFields.length > 0) {
+         query += ` ORDER BY ${this.orderFields.join(', ')}`;
+      }
+
+      // Límite
+      if (this.limitCount !== undefined) {
+         query += ` LIMIT ${this.limitCount}`;
+      }
+
+      return query;
+   }
 }
 
 function main() {
