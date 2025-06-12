@@ -32,6 +32,12 @@ class BeefHamburger implements Hamburger {
    }
 }
 
+class BeanHamburger implements Hamburger {
+   prepare(): void {
+      console.log('Preparando hamburguesa de %cBean',COLORS.green);
+   }
+}
+
 
 abstract class Restaurant {
    abstract createHamburger(): Hamburger;
@@ -55,9 +61,33 @@ class BeefRestaurant extends Restaurant {
    }
 }
 
+class BeanRestaurant extends Restaurant {
+   override createHamburger(): Hamburger {
+      return new BeanHamburger();
+   }
+}
 
-const chickenRestaurant = new ChickenRestaurant();
-chickenRestaurant.orderHamburger();
+function main() {
+   let restaurant: Restaurant;
 
-const beefRestaurant = new BeefRestaurant();
-beefRestaurant.orderHamburger();
+   const burgerType = prompt('¿Qué tipo de hamburguesa quieres? (pollo/res/Bean)')?.toLowerCase();
+
+   switch (burgerType) {
+      case 'pollo':
+         restaurant = new ChickenRestaurant();
+         break;
+      case 'res':
+         restaurant = new BeefRestaurant();
+         break;
+      case 'bean':
+         restaurant = new BeanRestaurant();
+         break;
+      default:
+         throw new Error(`Tipo de hamburguesa "${burgerType}" no reconocido.`);
+   }
+
+   restaurant.orderHamburger();
+   console.log('%c¡Hamburguesa lista!', COLORS.green);
+}
+
+main();
