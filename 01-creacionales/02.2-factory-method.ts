@@ -35,19 +35,30 @@ interface Report {
 // Implementar SalesReport e InventoryReport
 
 class SalesReport implements Report {
-  // TODO: implementar el método e imprimir en consola:
-  // 'Generando reporte de ventas...'
+   generate(): void {
+      console.log('Generando reporte de ventas...');
+      // Aquí se puede agregar la lógica para generar el reporte de ventas
+   }
 }
 
 class InventoryReport implements Report {
-  // TODO: implementar el método e imprimir en consola:
-  // 'Generando reporte de inventario...'
+   generate(): void {
+      console.log('Generando reporte de inventario...');
+      // Aquí se puede agregar la lógica para generar el reporte de ventas
+   }
+}
+
+class UsersReport implements Report {
+   generate(): void {
+      console.log('Generando reporte de usuarios...');
+      // Aquí se puede agregar la lógica para generar el reporte de ventas
+   }
 }
 
 // 3. Clase Base ReportFactory con el Método Factory
 
 abstract class ReportFactory {
-  abstract createReport(): Report;
+  protected abstract createReport(): Report;
 
   generateReport(): void {
     const report = this.createReport();
@@ -59,13 +70,19 @@ abstract class ReportFactory {
 
 class SalesReportFactory extends ReportFactory {
   createReport(): Report {
-    throw new Error('Method not implemented.');
+   return new SalesReport();
   }
 }
 
 class InventoryReportFactory extends ReportFactory {
   createReport(): Report {
-    throw new Error('Method not implemented.');
+      return new InventoryReport();
+  }
+}
+
+class UsersReportFactory extends ReportFactory {
+  createReport(): Report {
+      return new UsersReport();
   }
 }
 
@@ -75,12 +92,13 @@ function main() {
   let reportFactory: ReportFactory;
 
   const reportType = prompt(
-    '¿Qué tipo de reporte deseas? %c(sales/inventory)',
-    COLORS.red
+    '¿Qué tipo de reporte deseas? %c(sales/inventory/users)'
   );
 
   if (reportType === 'sales') {
     reportFactory = new SalesReportFactory();
+  } else if (reportType === 'users') {
+    reportFactory = new UsersReportFactory();
   } else {
     reportFactory = new InventoryReportFactory();
   }
