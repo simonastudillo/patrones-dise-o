@@ -23,14 +23,20 @@ class Player {
   readonly score: number;
   readonly level: number;
 
-  constructor(name: string, score: number, level: number) {
-    throw new Error('Method not implemented.');
-  }
+   constructor(name: string, score: number, level: number) {
+      this.name = name;
+      this.score = score;
+      this.level = level;
+   }
 
   // Método copyWith para crear una copia modificada del jugador
-  copyWith({ name, score, level }: Partial<Player>): Player {
-    throw new Error('Method not implemented.');
-  }
+   copyWith({ name, score, level }: Partial<Player>): Player {
+      return new Player(
+         name ?? this.name,
+         score ?? this.score,
+         level ?? this.level
+      );
+   }
 
   displayState(): void {
     console.log(`\n%cJugador: ${this.name}`, COLORS.green);
