@@ -1,4 +1,4 @@
-import { COLORS } from '../helpers/colors';
+import { COLORS } from "../helpers/colors.ts";
 /**
  * ! Inmutabilidad con copia
  * Aunque la inmutabilidad es una buena práctica, no siempre es posible.
@@ -56,7 +56,15 @@ class CodeEditorHistory {
       this.currentIndex++;
    }
 
-   readonly(): CodeEditorState | null {
+   undo(): CodeEditorState | null {
+      if (this.currentIndex > 0) {
+         this.currentIndex--;
+         return this.history[this.currentIndex];
+      }
+      return null;
+   }
+
+   redo(): CodeEditorState | null {
       if (this.currentIndex < this.history.length -1 ) {
          this.currentIndex++;
          return this.history[this.currentIndex];
@@ -65,6 +73,31 @@ class CodeEditorHistory {
    }
 }
 
-const vscode = new CodeEditorState();
+function main(){
 
-vscode.displayState();
+   const history = new CodeEditorHistory();
+   let editorState = new CodeEditorState('Initial content', 0, false);
+
+   history.save(editorState);
+   console.log("%cInitial State:", COLORS.blue);
+   editorState.displayState();
+
+   editorState = editorState.copyWith({ content: 'Updated content', cursorPosition: 5, unsavedChanges: true });
+   history.save(editorState);
+   console.log("%cAfter Update:", COLORS.red);
+   editorState.displayState();
+
+   editorState = editorState.copyWith({ cursorPosition: 10 });
+   history.save(editorState);
+   console.log("%cAfter Cursor Move:", COLORS.yellow);
+   editorState.displayState();
+
+   console.log("%cDespues del undo:", COLORS.orange);
+   history.undo()?.displayState();
+
+   console.log("%cDespues del redo:", COLORS.orange);
+   history.redo()?.displayState();
+
+}
+
+main();
