@@ -15,11 +15,22 @@ function createGreeter(lang: Language): (name: string) => void
 {
    return function(name: string) {
       const messages = {
-         es: `Hola, ${name}!`,
-         en: `Hello, ${name}!`,
-         fr: `Bonjour, ${name}!`
+         es: `Hola, %c${name}!`,
+         en: `Hello, %c${name}!`,
+         fr: `Bonjour, %c${name}!`
       }
 
       return console.log(messages[lang],COLORS.red);
    }
 }
+
+function main() {
+   const greetInSpanish = createGreeter('es');
+   greetInSpanish('Juan');
+   const greetInEnglish = createGreeter('en');
+   greetInEnglish('Alice');
+   const greetInFrench = createGreeter('fr');
+   greetInFrench('Pierre');
+}
+
+main();
