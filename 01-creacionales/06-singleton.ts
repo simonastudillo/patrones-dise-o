@@ -53,3 +53,23 @@ class DragonBalls
    }
 
 }
+
+function main() {
+   const goku = DragonBalls.getInstance();
+
+   goku.collectBall(); // Recolecta la primera esfera
+   goku.collectBall(); // Recolecta la segunda esfera
+   goku.collectBall(); // Recolecta la tercera esfera
+
+   goku.summonShenlong();
+
+   const vegeta = DragonBalls.getInstance();
+   vegeta.collectBall(); // Recolecta la cuarta esfera
+   vegeta.collectBall(); // Recolecta la quinta esfera
+   vegeta.collectBall(); // Recolecta la sexta esfera
+   vegeta.collectBall(); // Recolecta la séptima esfera
+
+   goku.summonShenlong(); // Invoca a Shenlong
+}
+
+main();
