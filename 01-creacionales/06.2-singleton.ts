@@ -43,7 +43,9 @@ class DatabaseConnection {
     if(this.connected){
       this.connected = false;
       console.log(`%cDesconectado de la base de datos.`, COLORS.red);
+      return;
     }
+    console.log(`%cNo hay conexión activa para desconectar.`, COLORS.blue);
   }
 }
 
