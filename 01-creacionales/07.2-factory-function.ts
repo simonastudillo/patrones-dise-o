@@ -31,9 +31,17 @@ function formatDate(date: Date): string {
 type LogLevel = 'info' | 'warn' | 'error';
 
 function createLogger(level: LogLevel) {
-  // Retorna una función que recibe el "message" como argumento
-  // Completar: implementar el logger con formato y color para cada nivel
-  throw new Error('Not implemented');
+   // Retorna una función que recibe el "message" como argumento
+   // Completar: implementar el logger con formato y color para cada nivel
+   return (message: string) => {
+      const colorLevel = {
+         info: COLORS.green,
+         warn: COLORS.yellow,
+         error: COLORS.red,
+      }
+      const timestamp = formatDate(new Date());
+      console.log(`%c[${level.toUpperCase()}:${timestamp}] ${message}`, colorLevel[level]);
+   }
 }
 
 // Ejemplo de uso
