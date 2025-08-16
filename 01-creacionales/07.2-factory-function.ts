@@ -30,17 +30,23 @@ function formatDate(date: Date): string {
 // Función fábrica que crea un manejador de logs
 type LogLevel = 'info' | 'warn' | 'error';
 
-function createLogger(level: LogLevel) {
+function createLogger(level: LogLevel): (message:string) => void {
    // Retorna una función que recibe el "message" como argumento
    // Completar: implementar el logger con formato y color para cada nivel
-   return (message: string) => {
+   return (message: string): void => {
       const colorLevel = {
-         info: COLORS.green,
+         info: COLORS.white,
          warn: COLORS.yellow,
          error: COLORS.red,
       }
+
+      const prefix = {
+         info: 'INFO',
+         warn: 'WARNING',
+         error: 'ERROR',
+      }
       const timestamp = formatDate(new Date());
-      console.log(`%c[${level.toUpperCase()}:${timestamp}] ${message}`, colorLevel[level]);
+      console.log(`%c[${prefix[level]}:${timestamp}] ${message}`, colorLevel[level]);
    }
 }
 
