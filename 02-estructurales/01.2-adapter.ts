@@ -22,41 +22,68 @@ interface PaymentProcessor {
 // Estas clases simulan los servicios externos de PayPal, Stripe y MercadoPago
 
 class PayPalService {
-  sendPayment(amount: number): void {
-    console.log(`Procesando pago de $${amount} con %cPayPal`, COLORS.blue);
-  }
+   sendPayment(amount: number): void {
+      console.log(`Procesando pago de $${amount} con %cPayPal`, COLORS.blue);
+   }
 }
 
 class StripeService {
-  makeCharge(amount: number): void {
-    console.log(`Procesando pago de $${amount} con %cStripe`, COLORS.purple);
-  }
+   makeCharge(amount: number): void {
+      console.log(`Procesando pago de $${amount} con %cStripe`, COLORS.purple);
+   }
 }
 
 class MercadoPagoService {
-  pay(amount: number): void {
-    console.log(
-      `Procesando pago de $${amount} con %cMercadoPago`,
-      COLORS.yellow
-    );
-  }
+   pay(amount: number): void {
+      console.log(
+         `Procesando pago de $${amount} con %cMercadoPago`,
+         COLORS.yellow
+      );
+   }
 }
 
 // 3. Clases Adaptadoras
 
 // Adaptador para PayPal
-class PayPalAdapter {
+class PayPalAdapter implements PaymentProcessor {
   // TODO: Implementar la interfaz PaymentProcessor
+   private payPalService: PayPalService;
+
+   constructor(){
+      this.payPalService = new PayPalService();
+   }
+
+   processPayment(amount: number): void {
+      this.payPalService.sendPayment(amount);
+   }
 }
 
 // Adaptador para Stripe
-class StripeAdapter {
-  // TODO: Implementar la interfaz PaymentProcessor
+class StripeAdapter implements PaymentProcessor {
+   // TODO: Implementar la interfaz PaymentProcessor
+   private stripeService: StripeService;
+
+   constructor() {
+      this.stripeService = new StripeService();
+   }
+
+   processPayment(amount: number): void {
+      this.stripeService.makeCharge(amount);
+   }
 }
 
 // Adaptador para MercadoPago
-class MercadoPagoAdapter {
-  // TODO: Implementar la interfaz PaymentProcessor
+class MercadoPagoAdapter implements PaymentProcessor {
+   // TODO: Implementar la interfaz PaymentProcessor
+   private mercadoPagoService: MercadoPagoService;
+
+   constructor() {
+      this.mercadoPagoService = new MercadoPagoService();
+   }
+
+   processPayment(amount: number): void {
+      this.mercadoPagoService.pay(amount);
+   }
 }
 
 // 4. Código Cliente para probar el Adapter
