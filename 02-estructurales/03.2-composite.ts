@@ -71,7 +71,8 @@ function main() {
   const steak = new MenuItem('Bistec', 15.99);
   const soda = new MenuItem('Refresco', 2.5);
   const dessert = new MenuItem('Pastel de chocolate', 6.5);
-  const coffee = new MenuItem('Café', 1.99);
+   const coffee = new MenuItem('Café', 1.99);
+   const tea = new MenuItem('Té', 0.99);
 
   // Crear categorías de menú y añadir ítems
   const appetizers = new MenuCategory('Entradas');
@@ -81,9 +82,13 @@ function main() {
   const mainCourse = new MenuCategory('Plato Principal');
   mainCourse.add(steak);
 
-  const beverages = new MenuCategory('Bebidas');
-  beverages.add(soda);
-  beverages.add(coffee);
+   const beverages = new MenuCategory('Bebidas');
+   const hotBeverages = new MenuCategory('Calientes');
+   hotBeverages.add(coffee);
+   hotBeverages.add(tea);
+   const coldBeverages = new MenuCategory('Frías');
+   coldBeverages.add(soda);
+   beverages.add([hotBeverages, coldBeverages]);
 
   const desserts = new MenuCategory('Postres');
   desserts.add(dessert);
@@ -91,9 +96,9 @@ function main() {
   // Crear un menú principal que contiene todas las categorías
   const mainMenu = new MenuCategory('Menú Principal');
   mainMenu.add([appetizers, beverages, desserts, mainCourse]);
-  mainMenu.add(mainCourse);
-  mainMenu.add(beverages);
-  mainMenu.add(desserts);
+//   mainMenu.add(mainCourse);
+//   mainMenu.add(beverages);
+//   mainMenu.add(desserts);
 
   // Mostrar la estructura completa del menú
   console.log('Menú del Restaurante:');
