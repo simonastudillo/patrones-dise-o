@@ -20,27 +20,35 @@ interface NotificationChannel {
 // 2. Implementaciones de Canales de Comunicación
 
 class EmailChannel implements NotificationChannel {
-  send(message: string): void {
-    console.log(`Enviando correo electrónico: ${message}`);
-  }
+   send(message: string): void {
+      console.log(`Enviando correo electrónico: ${message}`);
+   }
 }
 
 class SMSChannel implements NotificationChannel {
-  send(message: string): void {
-    console.log(`Enviando SMS: ${message}`);
-  }
+   send(message: string): void {
+      console.log(`Enviando SMS: ${message}`);
+   }
 }
 
 class PushNotificationChannel implements NotificationChannel {
-  send(message: string): void {
-    console.log(`Enviando Push: ${message}`);
-  }
+   send(message: string): void {
+      console.log(`Enviando Push: ${message}`);
+   }
 }
 
 // 3. Clase Abstracta Notification
 // Define la propiedad `channel` y el método `notify`
 
 abstract class Notification {
+   protected channel: NotificationChannel;
+
+   constructor(channel: NotificationChannel) {
+      this.channel = channel;
+   }
+
+   abstract notify(message: string): void;
+   abstract setChannel(channel: NotificationChannel): void;
   // TODO: Definir la propiedad `channel` de tipo NotificationChannel
   // TODO: Definir el constructor de la clase
   // TODO: Definir el método `notify` y `setChannel` (abstractos)
@@ -49,42 +57,45 @@ abstract class Notification {
 // 4. Clases Concretas de Notificaciones
 
 class AlertNotification extends Notification {
-  notify(message: string): void {
-    console.log('\n%cNotificación de Alerta:', COLORS.red);
-    // TODO: Enviar el mensaje a través del canal
-    throw new Error('Method not implemented.');
-  }
+   override notify(message: string): void {
+      console.log('\n%cNotificación de Alerta:', COLORS.red);
+      // TODO: Enviar el mensaje a través del canal
+      this.channel.send(message);
+   }
 
-  setChannel(channel: NotificationChannel): void {
-    // TODO: Asignar el canal a la propiedad `channel`
-    throw new Error('Method not implemented.');
-  }
+   override setChannel(channel: NotificationChannel): void {
+      // TODO: Asignar el canal a la propiedad `channel`
+      this.channel = channel;
+      console.log('\n%cCanal de notificación cambiado:', COLORS.yellow);
+   }
 }
 
 class ReminderNotification extends Notification {
-  notify(message: string): void {
-    console.log('\n%cNotificación de Recordatorio:', COLORS.blue);
-    // TODO: Enviar el mensaje a través del canal
-    throw new Error('Method not implemented.');
-  }
+   override notify(message: string): void {
+      console.log('\n%cNotificación de Recordatorio:', COLORS.blue);
+      // TODO: Enviar el mensaje a través del canal
+      this.channel.send(message);
+   }
 
-  setChannel(channel: NotificationChannel): void {
-    // TODO: Asignar el canal a la propiedad `channel`
-    throw new Error('Method not implemented.');
-  }
+   override setChannel(channel: NotificationChannel): void {
+      // TODO: Asignar el canal a la propiedad `channel`
+      this.channel = channel;
+      console.log('\n%cCanal de notificación cambiado:', COLORS.yellow);
+   }
 }
 
 class PushNotification extends Notification {
-  override notify(message: string): void {
-    console.log('\n%cNotificación de Push:', COLORS.green);
-    // TODO: Enviar el mensaje a través del canal
-    throw new Error('Method not implemented.');
-  }
+   override notify(message: string): void {
+      console.log('\n%cNotificación de Push:', COLORS.green);
+      // TODO: Enviar el mensaje a través del canal
+      this.channel.send(message);
+   }
 
-  override setChannel(channel: NotificationChannel): void {
-    // TODO: Asignar el canal a la propiedad `channel`
-    throw new Error('Method not implemented.');
-  }
+   override setChannel(channel: NotificationChannel): void {
+      // TODO: Asignar el canal a la propiedad `channel`
+      this.channel = channel;
+      console.log('\n%cCanal de notificación cambiado:', COLORS.yellow);
+   }
 }
 
 // 5. Código Cliente para Probar el Bridge
