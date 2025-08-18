@@ -19,45 +19,46 @@ import { COLORS } from '../helpers/colors.ts';
 // 1. Interfaz MenuComponent
 // Define el método `showDetails`, que implementarán los ítems y categorías de menú.
 interface MenuComponent {
-  showDetails(indent?: string): void;
+   showDetails(indent?: string): void;
 }
 
 // 2. Clase MenuItem
 // Representa un ítem individual del menú, como un platillo o una bebida.
 class MenuItem implements MenuComponent {
-  private name: string;
-  private price: number;
+   private name: string;
+   private price: number;
 
-  constructor(name: string, price: number) {
-    this.name = name;
-    this.price = price;
-  }
+   constructor(name: string, price: number) {
+      this.name = name;
+      this.price = price;
+   }
 
-  showDetails(indent: string = ''): void {
-    console.log(
-      `${indent}- ${this.name}: %c$${this.price.toFixed(2)}`,
-      COLORS.green
-    );
-  }
+   showDetails(indent: string = ''): void {
+      console.log(
+         `${indent}- ${this.name}: %c$${this.price.toFixed(2)}`,
+         COLORS.green
+      );
+   }
 }
 
 // 3. Clase MenuCategory
 // Representa una categoría de menú que puede contener otros ítems o subcategorías.
 class MenuCategory implements MenuComponent {
-  // TODO: Crear dos propiedades privadas: name y items
-  // Name sting y items arreglo de MenuComponent
-  // Name es recibida en el constructor, items se inicializa como un arreglo vacío
+   private name: string;
+   private items: MenuComponent[] = [];
+   
+   constructor(name: string){
+      this.name = name;
+   }
 
-  //TODO: Sobrecarga de operadores - Item puede ser MenuComponent o un arreglo de MenuComponent
-  add(item: unknown): void {
-    // TODO: Implementar la sobrecarga de operadores
-    throw new Error('Method not implemented.');
-  }
+   add(item: MenuComponent | MenuComponent[]): void {
+      this.items.push(...Array.isArray(item) ? item : [item]);
+   }
 
-  showDetails(indent: string = ''): void {
-    console.log(`%c${indent}+ ${this.name}`, COLORS.blue);
-    // TODO: Implementar foreach
-  }
+   showDetails(indent: string = ''): void {
+      console.log(`%c${indent}+ ${this.name}`, COLORS.blue);
+      this.items.forEach( item => item.showDetails(indent + '  ')); 
+   }
 }
 
 // 4. Código Cliente para Probar el Composite
@@ -70,7 +71,8 @@ function main() {
   const steak = new MenuItem('Bistec', 15.99);
   const soda = new MenuItem('Refresco', 2.5);
   const dessert = new MenuItem('Pastel de chocolate', 6.5);
-  const coffee = new MenuItem('Café', 1.99);
+   const coffee = new MenuItem('Café', 1.99);
+   const tea = new MenuItem('Té', 0.99);
 
   // Crear categorías de menú y añadir ítems
   const appetizers = new MenuCategory('Entradas');
@@ -80,9 +82,13 @@ function main() {
   const mainCourse = new MenuCategory('Plato Principal');
   mainCourse.add(steak);
 
-  const beverages = new MenuCategory('Bebidas');
-  beverages.add(soda);
-  beverages.add(coffee);
+   const beverages = new MenuCategory('Bebidas');
+   const hotBeverages = new MenuCategory('Calientes');
+   hotBeverages.add(coffee);
+   hotBeverages.add(tea);
+   const coldBeverages = new MenuCategory('Frías');
+   coldBeverages.add(soda);
+   beverages.add([hotBeverages, coldBeverages]);
 
   const desserts = new MenuCategory('Postres');
   desserts.add(dessert);
@@ -90,9 +96,9 @@ function main() {
   // Crear un menú principal que contiene todas las categorías
   const mainMenu = new MenuCategory('Menú Principal');
   mainMenu.add([appetizers, beverages, desserts, mainCourse]);
-  // mainMenu.add(mainCourse);
-  // mainMenu.add(beverages);
-  // mainMenu.add(desserts);
+//   mainMenu.add(mainCourse);
+//   mainMenu.add(beverages);
+//   mainMenu.add(desserts);
 
   // Mostrar la estructura completa del menú
   console.log('Menú del Restaurante:');
