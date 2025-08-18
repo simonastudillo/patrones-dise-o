@@ -25,8 +25,8 @@ class File implements FileSystemComponent {
       this.name = name;
    }
 
-   showDetails(indent?: string): void {
-      console.log(`${indent || ''}- Archivo: ${this.name}`);
+   showDetails(indent: string = ''): void {
+      console.log(`${indent}- Archivo: ${this.name}`);
    }
 }
 
@@ -38,8 +38,39 @@ class Folder implements FileSystemComponent {
       this.name = name;
    }
 
+   add(component: FileSystemComponent[]): void {
+      this.contents.push(...component);
+   }
+
    showDetails(indent: string = ''): void {
-      console.log(`${indent}- Carpeta: ${this.name}`);
+      console.log(`${indent}+ Carpeta: ${this.name}`);
       this.contents.forEach(component => component.showDetails(indent + '  '));
    }
 }
+
+function main(){
+   const file1 = new File('archivo1.txt');
+   const file2 = new File('archivo2.txt');
+   const file3 = new File('archivo3.txt');
+   const file4 = new File('archivo4.txt');
+
+   const folder1 = new Folder('carpeta1');
+   folder1.add([file1, file2]);
+
+   const folder2 = new Folder('carpeta2');
+   folder2.add([file3]);
+
+   const folder3 = new Folder('carpeta3');
+   folder3.add([file4]);
+
+   const folder4 = new Folder('carpeta4');
+   folder3.add([folder4]);
+   
+
+   const rootFolder = new Folder('raiz');
+   rootFolder.add([folder1, folder2]);
+   folder2.add([folder3]);
+   rootFolder.showDetails();
+}
+
+main();
