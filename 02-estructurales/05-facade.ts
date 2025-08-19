@@ -116,3 +116,23 @@ class HomeTheaterFacade {
       this.videoPlayer.off();
    }
 }
+
+function main() {
+   const proyector = new Proyector();
+   const soundSystem = new SoundSystem();
+   const videoPlayer = new VideoPlayer();
+   const popcornMaker = new PopcornMaker();
+
+   const homeTheater = new HomeTheaterFacade({
+      proyector,
+      soundSystem,
+      videoPlayer,
+      popcornMaker,
+   });
+
+   homeTheater.watchMovie('El Señor de los Anillos');
+   console.log('----------------------------------');
+   homeTheater.endMovie();
+}
+
+main();
