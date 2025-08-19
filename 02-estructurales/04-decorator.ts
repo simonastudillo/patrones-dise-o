@@ -53,7 +53,7 @@ class EmailDecorator extends NotificationDecorator {
 class SmsDecorator extends NotificationDecorator {
 
    private sendSMS(message: string): void {
-      console.log(`Enviando notificación por SMS: %c${message}`, COLORS.blue);
+      console.log(`Enviando notificación por SMS: %c${message}`, COLORS.yellow);
    }
 
    override send(message: string): void {
@@ -61,3 +61,14 @@ class SmsDecorator extends NotificationDecorator {
       this.sendSMS(message);
    }
 }
+
+function main() {
+
+   let notification: Notification = new BasicNotification();
+   notification = new EmailDecorator(notification);
+   notification = new SmsDecorator(notification);
+   notification.send("Hola, este es un mensaje de prueba.");
+
+}
+
+main();
