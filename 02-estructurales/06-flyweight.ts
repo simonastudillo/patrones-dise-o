@@ -11,6 +11,7 @@
 
 import { COLORS } from "../helpers/colors.ts";
 
+
 interface Location {
    display( coordinates: { x: number; y: number } ): void;
 }
@@ -39,9 +40,44 @@ class LocationFactory {
 
    getLocationIcon( type: string ): LocationIcon {
       if (!this.icons[type ] ) {
+         console.log( `Creando nuevo icono de tipo ${ type }`, COLORS.cyan );
          const iconImage = `imagen_de_${ type.toLowerCase() }.png`; // Simulación de una URL de imagen
          this.icons[type ] = new LocationIcon( type, iconImage );
       }
       return this.icons[type];
    }
 }
+
+class MapLocation {
+   private coordinates: { x: number; y: number };
+   private icon: LocationIcon;
+
+   constructor( x: number, y: number, icon: LocationIcon ) {
+      this.coordinates = { x, y };
+      this.icon = icon;
+   }
+
+   display(): void {
+      this.icon.display( this.coordinates );
+   }
+}
+
+function main() {
+   const factory = new LocationFactory();
+
+   const locations: MapLocation[] = [
+      new MapLocation( 10, 20, factory.getLocationIcon( "Hospital" ) ),
+      new MapLocation( 15, 25, factory.getLocationIcon( "Escuela" ) ),
+      new MapLocation( 30, 40, factory.getLocationIcon( "Parque" ) ),
+      new MapLocation( 50, 60, factory.getLocationIcon( "Hospital" ) ),
+      new MapLocation(70, 80, factory.getLocationIcon("Escuela")),
+      new MapLocation(30, 50, factory.getLocationIcon("Hospital")),
+      new MapLocation(80, 60, factory.getLocationIcon("Hospital")),
+   ];
+
+   locations.forEach( location => location.display() );
+
+   console.log( `\nNúmero de iconos únicos creados: ${ Object.keys( factory['icons'] ).length }`, COLORS.cyan );
+}
+
+main();
