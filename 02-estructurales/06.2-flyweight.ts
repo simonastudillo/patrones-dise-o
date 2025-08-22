@@ -1,53 +1,51 @@
 /**
- * ! Patrón Flyweight
- * Es un patrón de diseño estructural que nos permite usar objetos compartidos
- * para soportar eficientemente grandes cantidades de objetos.
- *
- * * Es útil cuando necesitamos una gran cantidad de objetos y queremos reducir
- * * la cantidad de memoria que utilizan.
- */
+   * ! Patrón Flyweight
+   * Es un patrón de diseño estructural que nos permite usar objetos compartidos
+   * para soportar eficientemente grandes cantidades de objetos.
+   *
+   * * Es útil cuando necesitamos una gran cantidad de objetos y queremos reducir
+   * * la cantidad de memoria que utilizan.
+*/
 
 import { COLORS } from '../helpers/colors.ts';
 
 // 1. Clase que representa el tipo de bala - BulletType (Flyweight)
 class BulletType {
-  private name: string;
-  private damage: number;
-  private color: string;
+   private name: string;
+   private damage: number;
+   private color: string;
 
-  constructor(name: string, damage: number, color: string) {
-    this.name = name;
-    this.damage = damage;
-    this.color = color;
-  }
+   constructor(name: string, damage: number, color: string) {
+      this.name = name;
+      this.damage = damage;
+      this.color = color;
+   }
 
-  getName(): string {
-    return this.name;
-  }
+   getName(): string {
+      return this.name;
+   }
 
-  getDamage(): number {
-    return this.damage;
-  }
+   getDamage(): number {
+      return this.damage;
+   }
 
-  getColor(): string {
-    return this.color;
-  }
+   getColor(): string {
+      return this.color;
+   }
 }
 
 // 2. Fábrica de Flyweights - BulletTypeFactory
 class BulletTypeFactory {
-  private bulletTypes: Record<string, BulletType> = {};
+   private bulletTypes: Record<string, BulletType> = {};
 
-  getBulletType(name: string, damage: number, color: string): BulletType {
-    // TODO: Implementar un método para obtener un tipo de bala
-    // Si no existe el tipo de bala, crearlo y guardarlo en la lista de tipos de bala
-    // Si existe el tipo de bala, devolverlo
-
-    // TODO: El key, debería de ser un identificador único para cada tipo de bala
-    // name-damage-color
-
-    throw new Error('Method not implemented.');
-  }
+   getBulletType(name: string, damage: number, color: string): BulletType {
+      const key = `${name}-${damage}-${color}`;
+      if (!this.bulletTypes[key]) {
+         this.bulletTypes[key] = new BulletType(name, damage, color);
+         console.log(`%cCreando nuevo tipo de bala: ${name}`, COLORS.red);
+      }
+      return this.bulletTypes[key];
+   }
 }
 
 // 3. Clase que representa una Bala - Bullet
