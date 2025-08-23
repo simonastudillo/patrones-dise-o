@@ -35,9 +35,9 @@ class SecretRoom implements Room {
 }
 
 class MagicPortal implements Room {
-   private secretRoom: SecretRoom;
+   private secretRoom: Room;
 
-   constructor(room: SecretRoom) {
+   constructor(room: Room) {
       this.secretRoom = room;
    }
 
@@ -49,3 +49,17 @@ class MagicPortal implements Room {
       console.log(`%c${player.name} no tiene permiso para entrar en la sala secreta.`, COLORS.red);
    }
 }
+
+function main(){
+   const portal = new MagicPortal(new SecretRoom() );
+   const player1 = new Player('Aventurero A', 5);
+   const player2 = new Player('Aventurero B', 15);
+
+   console.log('%cIntentando entrar en la sala secreta con un jugador de nivel 5:', COLORS.yellow);
+   portal.enter(player1); // No tiene permiso
+   console.log('\n%cIntentando entrar en la sala secreta con un jugador de nivel 15:', COLORS.yellow);
+   portal.enter(player2); // tiene permiso
+}
+
+
+main();
