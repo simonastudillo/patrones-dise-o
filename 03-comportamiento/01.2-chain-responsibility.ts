@@ -45,7 +45,7 @@ abstract class BaseApprover implements Approver {
 class Supervisor extends BaseApprover {
    override approveRequest(amount: number): void {
       if (amount <= 1000) {
-         console.log('Supervisor: Aprobando solicitud de $' + amount);
+         console.log(`%cSupervisor: Aprobando solicitud de $${amount}`, COLORS.blue);
          return;
       }
       super.next(amount);
@@ -58,7 +58,7 @@ class Manager extends BaseApprover {
 
    override approveRequest(amount: number): void {
       if (amount <= 5000) {
-         console.log('Manager: Aprobando solicitud de $' + amount);
+         console.log(`%cManager: Aprobando solicitud de $${amount}`, COLORS.green);
          return;
       }
       super.next(amount);
@@ -67,7 +67,7 @@ class Manager extends BaseApprover {
 
 class Director extends BaseApprover {
    override approveRequest(amount: number): void {
-      console.log('Director: Aprobando solicitud de $' + amount);
+      console.log(`%cDirector: Aprobando solicitud de $${amount}`, COLORS.purple);
    }
 }
 
