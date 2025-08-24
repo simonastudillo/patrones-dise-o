@@ -62,10 +62,25 @@ class ExpertSupport extends BaseHandler {
 
    override handle(request: string): void {
       if (request === 'experto') {
-         console.log(`%cSoporte experto: Resolviendo problema experto`, COLORS.green);
+         console.log(`%cSoporte experto: Resolviendo problema experto`, COLORS.purple);
          return;
       }
 
-      console.log(`%cSoporte experto: No puedo resolver el problema, no podemos hacer más`, COLORS.yellow);
+      console.log(`%cSoporte experto: No puedo resolver el problema, no podemos hacer más`, COLORS.red);
    }
 }
+
+function main(){
+   const basicSupport = new BasicSupport();
+   const advancedSupport = new AdvancedSupport();
+   const expertSupport = new ExpertSupport();
+
+   basicSupport.setNext(advancedSupport).setNext(expertSupport);
+
+   basicSupport.handle('basico');
+   basicSupport.handle('avanzado');
+   basicSupport.handle('experto');
+   basicSupport.handle('maestro');
+}
+
+main();
