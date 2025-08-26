@@ -73,3 +73,21 @@ class PokemonIterator implements Iterator<Pokemon> {
    }
 
 }
+
+function main() {
+   const pokedex = new PokemonCollection();
+   pokedex.addPokemon( new Pokemon("Pikachu", "Electric") );
+   pokedex.addPokemon( new Pokemon("Charmander", "Fire") );
+   pokedex.addPokemon( new Pokemon("Bulbasaur", "Grass") );
+
+   const iterator = pokedex.createIterator();
+
+   while ( iterator.hasNext() ) {
+      const pokemon = iterator.next();
+      if ( pokemon ) {
+         console.log(`Pokemon: ${pokemon.name}, Type: ${pokemon.type}`);
+      }
+   }
+}
+
+main();
