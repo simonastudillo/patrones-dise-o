@@ -11,26 +11,32 @@
 
 // Clase que representa una Carta de la baraja
 class Card {
-  name: string;
-  value: number;
+   name: string;
+   value: number;
 
-  constructor(name: string, value: number) {
-    this.name = name;
-    this.value = value;
-  }
+   constructor(name: string, value: number) {
+      this.name = name;
+      this.value = value;
+   }
 }
 
 // Clase que representa la colección de Cartas
 class CardCollection {
-  private cards: Card[] = [];
+   private cards: Card[] = [];
 
-  addCard(card: Card): void {
-    this.cards.push(card);
-  }
+   addCard(card: Card): void {
+      this.cards.push(card);
+   }
 
-  //TODO: Implementación del iterador usando Symbol.iterator
-  // Symbol.iterator (): IterableIterator<Card>
+   *[Symbol.iterator](): IterableIterator<Card> {
+      yield* this.cards;
+   }
 
+   *getCard(): IterableIterator<Card> {
+      for (const card of this.cards) {
+         yield card;
+      }
+   }
   // TODO: Implementación del iterador usando Generadores
   // *getCard(): IterableIterator<Card>
 }
