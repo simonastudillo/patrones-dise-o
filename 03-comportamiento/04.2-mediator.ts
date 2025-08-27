@@ -39,11 +39,10 @@ class ControlTower {
       this.airplanes.push(airplane);
    }
    
-   sendMessage(airplane: Airplane, message: string): void {
-      const airplanesToSend = this.airplanes.filter( ap => ap !== airplane );
-      for( const ap of airplanesToSend ) {
-         ap.receiveMessage(airplane, message);
-      }
+   sendMessage(sender: Airplane, message: string): void {
+      this.airplanes
+         .filter(ap => ap !== sender)
+         .forEach(ap => ap.receiveMessage(sender, message));
    }
 
    // Coordinación de aterrizaje
