@@ -35,66 +35,69 @@ import { COLORS } from '../helpers/colors.ts';
 class ControlTower {
   private airplanes: Airplane[] = [];
 
-  // Registrar un avión en la torre de control
-  // TODO: Implementar el método registerAirplane
-  // registerAirplane(airplane: Airplane)
+   registerAirplane(airplane: Airplane): void {
+      this.airplanes.push(airplane);
+   }
+   
+   sendMessage(airplane: Airplane, message: string): void {
+      const airplanesToSend = this.airplanes.filter( ap => ap !== airplane );
+      for( const ap of airplanesToSend ) {
+         ap.receiveMessage(airplane, message);
+      }
+   }
 
-  // Enviar un mensaje de un avión a todos los demás
-  //TODO: Implementar el método sendMessage
-  // sendMessage(sender: Airplane, message: string): void
+   // Coordinación de aterrizaje
+   requestLanding(sender: Airplane): void {
+      console.log(
+         `\n%cTorre de Control: %cPermiso de aterrizaje concedido a ${sender.getId()}`,
+         COLORS.green,
+         COLORS.white
+      );
 
-  // Coordinación de aterrizaje
-  requestLanding(sender: Airplane): void {
-    console.log(
-      `\n%cTorre de Control: %cPermiso de aterrizaje concedido a ${sender.getId()}`,
-      COLORS.green,
-      COLORS.white
-    );
-
-    this.sendMessage(sender, `${sender.getId()} está aterrizando.`);
+      this.sendMessage(sender, `${sender.getId()} está aterrizando.`);
   }
 
-  // Coordinación de despegue
-  requestTakeoff(sender: Airplane): void {
-    console.log(
-      `\n%cTorre de Control: %cPermiso de despegue concedido a ${sender.getId()}`,
-      COLORS.green,
-      COLORS.white
-    );
+   // Coordinación de despegue
+   requestTakeoff(sender: Airplane): void {
+      console.log(
+         `\n%cTorre de Control: %cPermiso de despegue concedido a ${sender.getId()}`,
+         COLORS.green,
+         COLORS.white
+      );
 
-    this.sendMessage(sender, `${sender.getId()} está despegando.`);
-  }
+      this.sendMessage(sender, `${sender.getId()} está despegando.`);
+   }
 }
 
 // Clase Colega - Airplane
 class Airplane {
-  private id: string;
-  private controlTower: ControlTower;
+   private id: string;
+   private controlTower: ControlTower;
 
-  constructor(id: string, controlTower: ControlTower) {
-    this.id = id;
-    this.controlTower = controlTower;
+   constructor(id: string, controlTower: ControlTower) {
+      this.id = id;
+      this.controlTower = controlTower;
 
-    // TODO: Registrar el avión en la torre de control
-  }
+      controlTower.registerAirplane(this);
+   }
 
-  getId(): string {
-    return this.id;
-  }
+   getId(): string {
+      return this.id;
+   }
 
-  // Solicitar aterrizaje a la torre de control
-  requestLanding(): void {
-    console.log(`${this.id} solicita permiso para aterrizar.`);
+   // Solicitar aterrizaje a la torre de control
+   requestLanding(): void {
+      console.log(`${this.id} solicita permiso para aterrizar.`);
 
-    // TODO: Solicitar aterrizaje a la torre de control
-  }
+      this.controlTower.requestLanding(this);
+   }
 
-  // Solicitar despegue a la torre de control
-  requestTakeoff(): void {
-    console.log(`${this.id} solicita permiso para despegar.`);
+   // Solicitar despegue a la torre de control
+   requestTakeoff(): void {
+      console.log(`${this.id} solicita permiso para despegar.`);
 
-    // TODO: Solicitar despegue a la torre de control
-  }
+      this.controlTower.requestTakeoff(this);
+   }
 
   // Recibir mensaje de otros aviones
   receiveMessage(sender: Airplane, message: string): void {
