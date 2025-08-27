@@ -21,15 +21,17 @@ class User {
    constructor(username: string, chatRoom: ChatRoom) {
       this.username = username;
       this.chatRoom = chatRoom;
+
+      chatRoom.addUser(this);
    }
 
    sendMessage( message: string ): void {
-      console.log(`\n%c${this.username} send: %c${message}`, COLORS.blue, COLORS.white);
+      console.log(`%c${this.username} send: %c${message}`, COLORS.blue, COLORS.white);
       this.chatRoom.sendMessage(this, message);
    }
 
    receiveMessage(sender: User, message: string): void {
-      console.log(`\n%c${sender.username} to ${this.username}: %c${message}`, COLORS.green, COLORS.white);
+      console.log(`%c${sender.username} to ${this.username}: %c${message}`, COLORS.green, COLORS.white);
    }
 }
 
@@ -52,3 +54,17 @@ class ChatRoom {
       }
    }
 }
+
+function main() {
+   const chatRoom = new ChatRoom('Grupo de trabajo');
+   const user1 = new User('Javier', chatRoom);
+   const user2 = new User('María', chatRoom);
+   const user3 = new User('Pedro', chatRoom);
+
+   user1.sendMessage('Hola a todos');
+   user2.sendMessage('Hola Javier');
+   user3.sendMessage('Hola Javier y María');
+}
+
+
+main();
