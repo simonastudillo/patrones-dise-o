@@ -32,8 +32,8 @@ interface State {
 class VendingMachine {
    private state: State;
 
-   constructor( state: State) {
-      this.state = state;
+   constructor() {
+      this.state = new WaitingForMoney(this);
    }
 
    insertMoney() {
@@ -78,5 +78,49 @@ class WaitingForMoney implements State {
 
    dispenseProduct() {
       console.log("%cPor favor, inserte dinero primero.", COLORS.red);
+   }
+}
+
+class SelectingProduct implements State {
+   public name = "Seleccionando Producto";
+   private vendingMachine: VendingMachine;
+
+   constructor(vendingMachine: VendingMachine) {
+      this.vendingMachine = vendingMachine;
+   }
+
+   insertMoney() {
+      console.log("%cPor favor, seleccione un producto primero.", COLORS.red);
+   }
+
+   selectProduct() {
+      console.log("Producto seleccionado. Ahora puedes dispensar el producto.");
+      this.vendingMachine.setState(new DispensingProduct(this.vendingMachine));
+   }
+
+   dispenseProduct() {
+      console.log("%cPor favor, seleccione un producto primero.", COLORS.red);
+   }
+}
+
+class DispensingProduct implements State {
+   public name = "Dispensando Producto";
+   private vendingMachine: VendingMachine;
+
+   constructor(vendingMachine: VendingMachine) {
+      this.vendingMachine = vendingMachine;
+   }
+
+   insertMoney() {
+      console.log("%cPor favor, espere a que se dispense el producto.", COLORS.red);
+   }
+
+   selectProduct() {
+      console.log("%cPor favor, espere a que se dispense el producto.", COLORS.red);
+   }
+
+   dispenseProduct() {
+      console.log("Producto dispensado. Gracias por su compra.");
+      this.vendingMachine.setState(new WaitingForMoney(this.vendingMachine));
    }
 }
