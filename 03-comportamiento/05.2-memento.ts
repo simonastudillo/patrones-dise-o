@@ -1,13 +1,13 @@
 /**
- * !Patrón Memento
- * Permite capturar y externalizar un estado interno de un objeto,
- * de manera que el objeto pueda ser restaurado a ese estado más tarde.
- *
- * * Es útil cuando se necesita guardar el estado de un objeto para poder
- * * volver a él en un futuro.
- *
- * https://refactoring.guru/es/design-patterns/memento
- */
+   * !Patrón Memento
+   * Permite capturar y externalizar un estado interno de un objeto,
+   * de manera que el objeto pueda ser restaurado a ese estado más tarde.
+   *
+   * * Es útil cuando se necesita guardar el estado de un objeto para poder
+   * * volver a él en un futuro.
+   *
+   * https://refactoring.guru/es/design-patterns/memento
+*/
 
 import { COLORS } from '../helpers/colors.ts';
 
@@ -15,60 +15,59 @@ import { COLORS } from '../helpers/colors.ts';
 
 // Clase Memento - DrawingMemento
 class DrawingMemento {
-  private shapes: string[];
+   private shapes: string[];
 
-  constructor(shapes: string[]) {
-    // Guardamos una copia de las figuras para evitar mutaciones
-    this.shapes = [...shapes];
-  }
+   constructor(shapes: string[]) {
+      // Guardamos una copia de las figuras para evitar mutaciones
+      this.shapes = [...shapes];
+   }
 
-  getShapes(): string[] {
-    return [...this.shapes];
-  }
+   getShapes(): string[] {
+      return [...this.shapes];
+   }
 }
 
 // Clase Originator - DrawingBoard
 class DrawingBoard {
-  private shapes: string[] = [];
+   private shapes: string[] = [];
 
-  // Agregar una figura a la pizarra
-  addShape(shape: string): void {
-    this.shapes.push(shape);
-    console.log(`Figura agregada: ${shape}`);
-  }
+   // Agregar una figura a la pizarra
+   addShape(shape: string): void {
+      this.shapes.push(shape);
+      console.log(`Figura agregada: ${shape}`);
+   }
 
-  // Mostrar el estado actual de la pizarra
-  showBoard(): void {
-    console.log('Pizarra actual:', this.shapes.join(', ') || 'Vacía');
-  }
+   // Mostrar el estado actual de la pizarra
+   showBoard(): void {
+      console.log('Pizarra actual:', this.shapes.join(', ') || 'Vacía');
+   }
 
-  // Crear un Memento del estado actual de la pizarra
-  save(): DrawingMemento {
-    // TODO: Implementar el método save para guardar el estado actual
-    throw new Error('Method not implemented.');
-  }
+   // Crear un Memento del estado actual de la pizarra
+   save(): DrawingMemento {
+      return new DrawingMemento(this.shapes);
+   }
 
-  // Restaurar el estado de la pizarra desde un Memento
-  restore(memento: DrawingMemento): void {
-    this.shapes = memento.getShapes();
-    console.log('%c\nEstado de la pizarra restaurado.', COLORS.blue);
-  }
+   // Restaurar el estado de la pizarra desde un Memento
+   restore(memento: DrawingMemento): void {
+      this.shapes = [...memento.getShapes()];
+      console.log('%c\nEstado de la pizarra restaurado.', COLORS.blue);
+   }
 }
 
 // Clase Caretaker - History
 class History {
   private mementos: DrawingMemento[] = [];
 
-  // Guardar un Memento
-  // TODO: Implementar push para guardar en la historia
-  push(memento: DrawingMemento): void {
-    throw new Error('Method not implemented.');
-  }
+   // Guardar un Memento
+   // TODO: Implementar push para guardar en la historia
+   push(memento: DrawingMemento): void {
+      this.mementos.push(memento);
+   }
 
   // Recuperar el último Memento
   // TODO: Implementar pop para recuperar el último memento
-  pop(): DrawingMemento | undefined {
-    throw new Error('Method not implemented.');
+  pop(): DrawingMemento | null {
+    return this.mementos.pop() ?? null;
   }
 }
 
