@@ -36,17 +36,13 @@ class GameMemento {
 }
 
 class Game {
-   private level: number;
-   private health: number;
-   private position: string;
+   private level: number = 1;
+   private health: number = 100;
+   private position: string = 'inicio';
 
-   constructor(level: number, health: number, position: string) {
-      this.level = level;
-      this.health = health;
-      this.position = position;
-
-      console.log(`%cJugando en el nivel ${this.level} \n
-      salud: ${this.health} \n
+   constructor() {
+      console.log(`%cJugando en el nivel ${this.level}
+      salud: ${this.health}
       posición: ${this.position}`, COLORS.green);
    }
 
@@ -59,8 +55,8 @@ class Game {
       this.health = health;
       this.position = position;
 
-      console.log(`%cJugando en el nivel ${this.level} \n
-      salud: ${this.health} \n
+      console.log(`%cJugando en el nivel ${this.level}
+      salud: ${this.health}
       posición: ${this.position}`, COLORS.blue);
    }
 
@@ -69,9 +65,9 @@ class Game {
       this.health = memento.getHealth();
       this.position = memento.getPosition();
 
-      console.log(`%cEstado restaurado: \n
-      nivel: ${this.level} \n
-      salud: ${this.health} \n
+      console.log(`%cEstado restaurado:
+      nivel: ${this.level}
+      salud: ${this.health}
       posición: ${this.position}`, COLORS.yellow);
    }
 }
@@ -87,3 +83,27 @@ class GameHistory {
       return this.mementos.pop() ?? null;
    }
 }
+
+function main() {
+   const game = new Game();
+   const history = new GameHistory();
+
+   history.push(game.save());
+
+   game.play(2, 90, 'Bosque Encantado');
+   history.push(game.save());
+
+   game.play(3, 70, 'Cueva Oscura');
+   history.push(game.save());
+
+   game.play(4, 50, 'Castillo del Dragón');
+   console.log(`%cEstado actual:
+   nivel: ${game['level']}
+   salud: ${game['health']}
+   posición: ${game['position']}`, COLORS.red);
+
+   game.restore(history.pop()!);
+   game.restore(history.pop()!);
+}
+
+main();
