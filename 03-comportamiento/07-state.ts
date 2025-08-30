@@ -10,6 +10,7 @@
  */
 
 import { COLORS } from "../helpers/colors.ts";
+import { sleep } from "../helpers/sleep.ts";
 
 /**
  * * Objetivo: Implementar el patrón State para simular el funcionamiento
@@ -124,3 +125,34 @@ class DispensingProduct implements State {
       this.vendingMachine.setState(new WaitingForMoney(this.vendingMachine));
    }
 }
+
+async function main(){
+   const vendingMachine = new VendingMachine();
+
+   let selectedOption: string | null = '4';
+
+   do {
+      console.clear();
+      console.log(`Seleccione una opción: ${vendingMachine.getStateName()}`);
+      selectedOption = prompt(`1. Insertar dinero\n2. Seleccionar producto\n3. Dispensar producto\n4. Salir`);
+      switch (selectedOption) {
+         case '1':
+            vendingMachine.insertMoney();
+            break;
+         case '2':
+            vendingMachine.selectProduct();
+            break;
+         case '3':
+            vendingMachine.dispenseProduct();
+            break;
+         case '4':
+            console.log("Saliendo...");
+            break;
+         default:
+            console.log("%cOpción no válida.", COLORS.red);
+      }
+      await sleep(3000);
+   } while (selectedOption !== '4');
+}
+
+main();
