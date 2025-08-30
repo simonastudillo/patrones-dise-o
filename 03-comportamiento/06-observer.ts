@@ -55,3 +55,23 @@ class Subscriber implements Observer {
      console.log(`El suscriptor %c${this.name} ha sido notificado del nuevo video: %c${videoTitle}`, COLORS.green, COLORS.yellow);
    }
 }
+
+function main() {
+   const channel = new YoutubeChannel("Cocinando con Fernando");
+   const subscriber1 = new Subscriber("Juan");
+   const subscriber2 = new Subscriber("María");
+   const subscriber3 = new Subscriber("Pedro");
+
+   channel.subscribe(subscriber1);
+   channel.subscribe(subscriber2);
+   channel.subscribe(subscriber3);
+
+   channel.uploadVideo("Patrón Observer en TypeScript");
+
+   channel.unsubscribe(subscriber1);
+
+   channel.uploadVideo("Otro video interesante");
+}
+
+
+main();
