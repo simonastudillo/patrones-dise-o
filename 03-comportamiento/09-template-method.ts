@@ -14,6 +14,8 @@
  * https://refactoring.guru/es/design-patterns/template-method
  */
 
+import { COLORS } from "../helpers/colors.ts";
+
 /**
  * Contexto: Vamos a implementar un sistema que permite preparar
  * diferentes bebidas calientes, como café y té.
@@ -68,3 +70,15 @@ class Coffee extends HotBeverage {
    }
 
 }
+
+function main() {
+   console.log(`%cPreparando un té`, COLORS.green);
+   const tea = new Tea();
+   tea.prepare();
+
+   console.log(`%cPreparando un café`, COLORS.brown);
+   const coffee = new Coffee();
+   coffee.prepare();
+}
+
+main();
