@@ -67,3 +67,19 @@ class Duck {
       this.movementStrategy = movementStrategy;
    }
 }
+
+function main(){
+   const duck1 = new Duck('Pato1', new SwimFast());
+   const duck2 = new Duck('Pato2', new FlyOverWater());
+   const duck3 = new Duck('Pato3', new WalkClumsily());
+
+   duck1.performMove();
+   duck2.performMove();
+   duck3.performMove();
+
+   // Cambiar estrategia de movimiento
+   duck3.setMovementStrategy(new SwimFast());
+}
+
+
+main();
